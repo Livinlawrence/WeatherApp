@@ -1,7 +1,9 @@
 package com.weatherapp.data.mapper
 
+import com.weatherapp.data.local.entity.LocationEntity
 import com.weatherapp.data.local.entity.WeatherEntity
 import com.weatherapp.data.remote.dto.WeatherResponseDto
+import com.weatherapp.domain.model.Location
 import com.weatherapp.domain.model.Weather
 
 fun WeatherResponseDto.toDomain(locationId: String): Weather {
@@ -11,9 +13,11 @@ fun WeatherResponseDto.toDomain(locationId: String): Weather {
     return Weather(
         locationId = locationId,
         temperature = main.temp,
+        minTemp = main.temp_min,
+        maxTemp = main.temp_max,
         feelsLike = main.feels_like,
         description = weatherInfo.description,
-        icon = weatherInfo.icon,
+        name = name,
         humidity = main.humidity,
         pressure = main.pressure,
         windSpeed = wind.speed,
@@ -25,9 +29,11 @@ fun Weather.toEntity(): WeatherEntity =
     WeatherEntity(
         locationId = locationId,
         temperature = temperature,
+        minTemp = minTemp,
+        maxTemp = maxTemp,
         feelsLike = feelsLike,
         description = description,
-        icon = icon,
+        name = name,
         humidity = humidity,
         pressure = pressure,
         windSpeed = windSpeed,
@@ -38,11 +44,33 @@ fun WeatherEntity.toDomain(): Weather =
     Weather(
         locationId = locationId,
         temperature = temperature,
+        minTemp = minTemp,
+        maxTemp = maxTemp,
         feelsLike = feelsLike,
         description = description,
-        icon = icon,
+        name = name,
         humidity = humidity,
         pressure = pressure,
         windSpeed = windSpeed,
         timestamp = timestamp
+    )
+
+fun Location.toEntity(): LocationEntity =
+    LocationEntity(
+        id = id,
+        name = name,
+        country = country,
+        isFavorite = isFavorite,
+        latitude = latitude,
+        longitude = longitude
+    )
+
+fun LocationEntity.toDomain(): Location =
+    Location(
+        id = id,
+        name = name,
+        isFavorite = isFavorite,
+        country = country,
+        latitude = latitude,
+        longitude = longitude
     )

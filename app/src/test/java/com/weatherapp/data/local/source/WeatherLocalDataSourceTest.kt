@@ -1,10 +1,15 @@
 package com.weatherapp.data.local.source
 
 import com.weatherapp.data.local.dao.ForecastDao
+import com.weatherapp.data.local.dao.LocationDao
 import com.weatherapp.data.local.dao.WeatherDao
 import com.weatherapp.data.local.entity.ForecastEntity
 import com.weatherapp.data.local.entity.WeatherEntity
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -16,6 +21,7 @@ class WeatherLocalDataSourceTest {
 
     private lateinit var weatherDao: WeatherDao
     private lateinit var forecastDao: ForecastDao
+    private lateinit var locationDao: LocationDao
     private lateinit var dataSource: WeatherLocalDataSource
 
     private val locationId = "place123"
@@ -24,10 +30,12 @@ class WeatherLocalDataSourceTest {
     fun setup() {
         weatherDao = mockk()
         forecastDao = mockk()
+        locationDao = mockk()
 
         dataSource = WeatherLocalDataSource(
             weatherDao,
-            forecastDao
+            forecastDao,
+            locationDao
         )
     }
 
@@ -39,7 +47,7 @@ class WeatherLocalDataSourceTest {
             temperature = 298.4,
             feelsLike = 299.0,
             description = "moderate rain",
-            icon = "10d",
+            name = "10d",
             humidity = 64,
             pressure = 1015,
             windSpeed = 0.62,
@@ -63,7 +71,7 @@ class WeatherLocalDataSourceTest {
             temperature = 298.4,
             feelsLike = 299.0,
             description = "rain",
-            icon = "10d",
+            name = "10d",
             humidity = 64,
             pressure = 1015,
             windSpeed = 0.62,

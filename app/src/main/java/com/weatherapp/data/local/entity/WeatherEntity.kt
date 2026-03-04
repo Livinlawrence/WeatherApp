@@ -14,23 +14,16 @@ import androidx.room.PrimaryKey
     )
 ],indices = [Index(value = ["locationId"])])
 data class WeatherEntity(
-
     @PrimaryKey
     val locationId: String,
-
     val temperature: Double,
-
+    val minTemp: Double,
+    val maxTemp: Double,
     val feelsLike: Double,
-
     val description: String,
-
-    val icon: String,
-
+    val name: String,
     val humidity: Int,
-
     val pressure: Int,
-
     val windSpeed: Double,
-
     val timestamp: Long
 )

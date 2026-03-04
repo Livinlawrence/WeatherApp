@@ -1,14 +1,17 @@
 package com.weatherapp.data.local.source
 
 import com.weatherapp.data.local.dao.ForecastDao
+import com.weatherapp.data.local.dao.LocationDao
 import com.weatherapp.data.local.dao.WeatherDao
 import com.weatherapp.data.local.entity.ForecastEntity
+import com.weatherapp.data.local.entity.LocationEntity
 import com.weatherapp.data.local.entity.WeatherEntity
 import javax.inject.Inject
 
 class WeatherLocalDataSource @Inject constructor(
     private val weatherDao: WeatherDao,
-    private val forecastDao: ForecastDao
+    private val forecastDao: ForecastDao,
+    private val locationDao: LocationDao
 ) {
 
     suspend fun getWeather(locationId: String): WeatherEntity? {
@@ -33,5 +36,21 @@ class WeatherLocalDataSource @Inject constructor(
 
     suspend fun clearForecast() {
         forecastDao.clearForecast()
+    }
+
+    suspend fun saveLocation(location: LocationEntity) {
+        locationDao.insertLocation(location)
+    }
+
+    suspend fun getLocation(id: String): LocationEntity? {
+        return locationDao.getLocation(id)
+    }
+
+    suspend fun getLocations(): List<LocationEntity> {
+        return locationDao.getAllLocations()
+    }
+
+    suspend fun deleteLocation(id: String) {
+        locationDao.deleteLocation(id)
     }
 }

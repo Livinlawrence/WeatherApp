@@ -1,6 +1,7 @@
 package com.weatherapp.di
 
 import com.weatherapp.data.local.dao.ForecastDao
+import com.weatherapp.data.local.dao.LocationDao
 import com.weatherapp.data.local.dao.WeatherDao
 import com.weatherapp.data.local.source.WeatherLocalDataSource
 import com.weatherapp.data.remote.api.WeatherApi
@@ -25,12 +26,14 @@ object DataSourceModule {
     @Provides
     fun provideWeatherLocalDataSource(
         weatherDao: WeatherDao,
-        forecastDao: ForecastDao
+        forecastDao: ForecastDao,
+        locationDao: LocationDao
     ): WeatherLocalDataSource {
 
         return WeatherLocalDataSource(
             weatherDao,
-            forecastDao
+            forecastDao,
+            locationDao
         )
     }
 }

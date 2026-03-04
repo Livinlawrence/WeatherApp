@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.weatherapp.core.util.Constants.DB_NAME
 import com.weatherapp.data.local.dao.ForecastDao
+import com.weatherapp.data.local.dao.LocationDao
 import com.weatherapp.data.local.dao.WeatherDao
 import com.weatherapp.data.local.database.WeatherDatabase
 import dagger.Module
@@ -42,5 +43,12 @@ object DatabaseModule {
         database: WeatherDatabase
     ): ForecastDao {
         return database.forecastDao()
+    }
+
+    @Provides
+    fun provideLocationDao(
+        database: WeatherDatabase
+    ): LocationDao {
+        return database.locationDao()
     }
 }
