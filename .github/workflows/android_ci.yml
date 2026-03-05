@@ -2,9 +2,9 @@ name: WeatherApp CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop, master ]
+    branches: [ dev ]
 
 jobs:
   build-and-test:
