@@ -2,10 +2,9 @@ name: Android CI
 
 on:
   pull_request:
-    branches: [ master, main ]
-    types: [opened, synchronize, reopened]
+    branches: [ master, dev ]
   push:
-    branches: [ master, main ]
+    branches: [ master, dev ]
 
 jobs:
   build:
@@ -37,7 +36,6 @@ jobs:
         run: ./gradlew assembleDebug
 
       - name: Upload Artifacts
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v4
         with:
           name: weather-app-debug

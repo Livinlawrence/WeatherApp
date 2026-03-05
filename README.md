@@ -5,9 +5,9 @@ Architecture principles.
 
 ## 📱 Screenshots
 
-  <img src="screen_1.png" width="30%" alt="Screen 1" />
-  <img src="screen_2.png" width="30%" alt="Screen 2" />
-  <img src="screen_3.png" width="30%" alt="Screen 3" />
+| Screen 1 | Screen 2 | Screen 3 |
+| :---: | :---: | :---: |
+| ![Screen 1](./screen_1.png) | ![Screen 2](./screen_2.png) | ![Screen 3](./screen_3.png) |
 
 ## 🏗 Architecture & Design Considerations
 
