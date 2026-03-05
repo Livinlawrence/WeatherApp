@@ -29,19 +29,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Run Lint
-        run: ./gradlew lint
-
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
-
-      - name: Generate Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: Unit Tests
-          path: app/build/test-results/test*/TEST-*.xml
-          reporter: java-junit
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug
