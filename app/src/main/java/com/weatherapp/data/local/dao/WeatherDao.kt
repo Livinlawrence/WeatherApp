@@ -17,20 +17,14 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(weather: WeatherEntity)
 
-    // We reference the LocationDao method here or define a local insert
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract suspend fun insertLocation(location: LocationEntity)
+    suspend fun insertLocation(location: LocationEntity)
 
-    /**
-     * This method ensures that the Location exists before the Weather is saved.
-     * Using @Transaction makes this atomic: both succeed or both fail.
-     */
     @Transaction
-    open suspend fun insertWeatherWithLocation(location: LocationEntity, weather: WeatherEntity) {
+    suspend fun insertWeatherWithLocation(location: LocationEntity, weather: WeatherEntity) {
         insertLocation(location)
         insertWeather(weather)
     }
-
 
     @Query("DELETE FROM weather")
     suspend fun clearWeather()

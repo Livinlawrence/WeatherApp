@@ -55,15 +55,6 @@ fun WeatherEntity.toDomain(): Weather =
         timestamp = timestamp
     )
 
-fun Location.toEntity(): LocationEntity =
-    LocationEntity(
-        id = id,
-        name = name,
-        isFavorite = isFavorite == true,
-        latitude = latitude,
-        longitude = longitude
-    )
-
 fun LocationEntity.toDomain(): Location =
     Location(
         id = id,

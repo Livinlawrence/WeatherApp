@@ -83,7 +83,7 @@ class WeatherRepositoryImpl @Inject constructor(
 
         } catch (e: Exception) {
             e.printStackTrace()
-            local.getForecast(locationId).map { it.toDomain() }
+            local.getForecast(locationId).take(5).map { it.toDomain() }
         }
     }
 

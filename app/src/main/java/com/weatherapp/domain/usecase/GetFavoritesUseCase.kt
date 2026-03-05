@@ -7,7 +7,6 @@ import javax.inject.Inject
 class GetFavoritesUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
-
     suspend operator fun invoke(): List<Location> {
         return repository.getFavorites()
     }

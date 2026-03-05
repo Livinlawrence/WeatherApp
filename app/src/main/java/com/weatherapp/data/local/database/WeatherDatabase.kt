@@ -2,6 +2,7 @@ package com.weatherapp.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.weatherapp.core.util.Constants.DB_VERSION
 import com.weatherapp.data.local.dao.ForecastDao
 import com.weatherapp.data.local.dao.LocationDao
 import com.weatherapp.data.local.dao.WeatherDao
@@ -15,13 +16,10 @@ import com.weatherapp.data.local.entity.WeatherEntity
         ForecastEntity::class,
         LocationEntity::class
     ],
-    version = 1
+    version = DB_VERSION
 )
 abstract class WeatherDatabase : RoomDatabase() {
-
     abstract fun weatherDao(): WeatherDao
-
     abstract fun forecastDao(): ForecastDao
-
     abstract fun locationDao(): LocationDao
 }

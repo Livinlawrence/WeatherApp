@@ -35,8 +35,12 @@ class WeatherViewModel @Inject constructor(
         if (id == null || lat == null || lon == null) return
         _uiState.value = _uiState.value.copy(isFavorite = false)
         executeWeatherTask {
-            val weather = useCases.getWeather(id, lat, lon)
-            val forecast = useCases.getForecast(id, lat, lon)
+            val weather = useCases.getWeather(
+                locationId = id, lat = lat, lon = lon
+            )
+            val forecast = useCases.getForecast(
+                locationId = id, lat = lat, lon = lon
+            )
             Pair(weather, forecast)
         }
     }

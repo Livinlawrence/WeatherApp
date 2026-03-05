@@ -75,29 +75,25 @@ fun WeatherScreen(
             result.data?.let { resultData ->
                 val place = Autocomplete.getPlaceFromIntent(resultData)
                 viewModel.loadWeatherForTheSelectedLocation(
-                    id = place.id,
-                    lat = place.location?.latitude,
-                    lon = place.location?.longitude
+                    id = place.id, lat = place.location?.latitude, lon = place.location?.longitude
                 )
             }
         }
     }
 
-    val permissionLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.RequestPermission()
-        ) { granted ->
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
 
-            if (granted) {
-                viewModel.loadWeather()
-            }
+        if (granted) {
+            viewModel.loadWeather()
         }
+    }
 
     LaunchedEffect(Unit) {
         val permission = Manifest.permission.ACCESS_FINE_LOCATION
         if (ContextCompat.checkSelfPermission(
-                context,
-                permission
+                context, permission
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             viewModel.loadWeather()
@@ -131,21 +127,16 @@ fun WeatherScreen(
                     onDismiss = { viewModel.toggleFavoritesDialog(false) },
                     onLocationSelect = { location ->
                         viewModel.loadWeatherForTheSelectedLocation(
-                            id = location.id,
-                            lat = location.latitude,
-                            lon = location.longitude
+                            id = location.id, lat = location.latitude, lon = location.longitude
                         )
                         viewModel.toggleFavoritesDialog(false)
                     },
-                    onDelete = { id -> viewModel.removeFavorite(id) }
-                )
+                    onDelete = { id -> viewModel.removeFavorite(id) })
             }
 
             IconButton(onClick = {
                 val fields = listOf(
-                    Place.Field.ID,
-                    Place.Field.DISPLAY_NAME,
-                    Place.Field.LOCATION
+                    Place.Field.ID, Place.Field.DISPLAY_NAME, Place.Field.LOCATION
                 )
                 val intent = Autocomplete.IntentBuilder(
                     AutocompleteActivityMode.OVERLAY, fields
@@ -185,8 +176,7 @@ fun WeatherContent(
 ) {
     if (state.isLoading) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(color = Color.Blue)
         }
@@ -231,10 +221,7 @@ fun ForecastContent(condition: WeatherCondition, forecast: List<ForecastUi>) {
             .background(weatherBackgroundColor(condition))
             .verticalScroll(rememberScrollState())
             .padding(
-                start = 16.dp,
-                top = 16.dp,
-                end = 16.dp,
-                bottom = 100.dp
+                start = 16.dp, top = 16.dp, end = 16.dp, bottom = 100.dp
             )
     ) {
         forecast.forEach {
