@@ -18,6 +18,20 @@ This project follows **Clean Architecture** with a clear separation of concerns 
 
 ---
 
+## 💾 Local Persistence & Offline Support
+
+The application leverages **Room Database** to provide a seamless user experience even without an active internet connection.
+
+### Core Features:
+-   **Weather Caching**: Latest weather data and 5-day forecasts are cached locally. If a network request fails, the app displays the last known data stored in the database.
+-   **Favorite Locations**: Users can "favorite" specific cities or locations.
+    -   This is managed via the `isFavorite` flag in the `LocationEntity`.
+    -   Favorites are persisted across app restarts, allowing users to quickly access weather for their preferred spots.
+    -   The `LocationDao` provides efficient queries to toggle favorite status and retrieve the list of saved locations.
+-   **Offline Resilience**: By using a "Single Source of Truth" pattern (the database), the UI always observes the local database, which is updated whenever fresh data is fetched from the OpenWeatherMap API.
+
+---
+
 ## 🛠 Third-Party Libraries
 
 An exhaustive list of the libraries used and their purpose:
@@ -56,12 +70,22 @@ An exhaustive list of the libraries used and their purpose:
     ```bash
     git clone <repository-url>
     ```
-2.  **API Keys**:
-    The app uses the OpenWeatherMap API. For convenience, a non-critical development key is provided below, but it is recommended to use your own for production.
+2.  **API Keys Configuration**:
+    This project uses the [Secrets Gradle Plugin](https://github.com/google/secrets-gradle-plugin) to manage API keys securely. To build and run the application, you **must** add the following keys to your `local.properties` file in the project root.
+
+    *   **OpenWeatherMap API Key**: Required for fetching real-time weather data.
+        1.  Sign up and get a key from [OpenWeatherMap](https://openweathermap.org/api).
+        2.  Add to `local.properties`: `WEATHER_API_KEY=your_weather_api_key_here`
     
-    Open `local.properties` in the root directory and add:
+    *   **Google Places API Key**: Required for the city search and autocomplete features.
+        1.  Create a project in the [Google Cloud Console](https://console.cloud.google.com/).
+        2.  Enable the **Places API (New)**.
+        3.  Create an API Key and add to `local.properties`: `GOOGLE_PLACES_API_KEY=your_google_api_key_here`
+
+    **Example `local.properties` content**:
     ```properties
-    OPEN_WEATHER_API_KEY=ed602a33481e3703d9804ef53a25c197
+    WEATHER_API_KEY=ed602a33481e3703d9804ef53a25c197
+    GOOGLE_PLACES_API_KEY=YOUR_API_KEY_HERE
     ```
 
 3.  **Sync Gradle**:
