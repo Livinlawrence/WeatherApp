@@ -3,11 +3,12 @@ name: Android CI
 on:
   pull_request:
     branches: [ master, main ]
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ master, main ]
 
 jobs:
   build:
-    # Run if PR is active OR if it was just merged
     if: github.event_name == 'pull_request' && (github.event.action != 'closed' || github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
 
@@ -22,25 +23,21 @@ jobs:
           distribution: 'temurin'
 
       - name: Create local.properties
-        # This creates the file so Gradle doesn't complain about missing keys
         run: |
           echo "WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}" >> local.properties
           echo "GOOGLE_PLACES_API_KEY=${{ secrets.GOOGLE_PLACES_API_KEY }}" >> local.properties
 
       - name: Setup Gradle
-        # This action handles permissions for gradlew and caching automatically
         uses: gradle/actions/setup-gradle@v3
 
       - name: Run Unit Tests
-        # Using the wrapper is now safe because setup-gradle fixed permissions
         run: ./gradlew testDebugUnitTest
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
       - name: Upload Artifacts
-        # Only upload the APK if the PR was actually merged into the main branch
-        if: github.event.pull_request.merged == true
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v4
         with:
           name: weather-app-debug
