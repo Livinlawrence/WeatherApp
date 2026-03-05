@@ -7,6 +7,6 @@ data class WeatherUseCases(
     val getWeather: GetWeatherUseCase,
     val getForecast: GetForecastUseCase,
     val getFavorites: GetFavoritesUseCase,
-    val addFavorite: AddFavoriteUseCase,
-    val removeFavorite: RemoveFavoriteUseCase
+    val updateFavoriteStatusUseCase: UpdateFavoriteStatusUseCase,
+    val isFavorite: IsFavoriteUseCase
 )

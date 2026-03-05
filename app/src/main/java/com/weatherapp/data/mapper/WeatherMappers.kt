@@ -59,8 +59,7 @@ fun Location.toEntity(): LocationEntity =
     LocationEntity(
         id = id,
         name = name,
-        country = country,
-        isFavorite = isFavorite,
+        isFavorite = isFavorite == true,
         latitude = latitude,
         longitude = longitude
     )
@@ -70,7 +69,6 @@ fun LocationEntity.toDomain(): Location =
         id = id,
         name = name,
         isFavorite = isFavorite,
-        country = country,
         latitude = latitude,
         longitude = longitude
     )

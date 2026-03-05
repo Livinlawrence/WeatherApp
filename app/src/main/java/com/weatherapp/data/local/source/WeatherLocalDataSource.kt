@@ -22,6 +22,10 @@ class WeatherLocalDataSource @Inject constructor(
         weatherDao.insertWeather(weather)
     }
 
+    suspend fun saveWeatherForLocation(location: LocationEntity, weather: WeatherEntity) {
+        weatherDao.insertWeatherWithLocation(location, weather)
+    }
+
     suspend fun clearWeather() {
         weatherDao.clearWeather()
     }
@@ -38,16 +42,20 @@ class WeatherLocalDataSource @Inject constructor(
         forecastDao.clearForecast()
     }
 
-    suspend fun saveLocation(location: LocationEntity) {
-        locationDao.insertLocation(location)
+    suspend fun updateFavoriteStatus(locationId: String, isFavorite: Boolean) {
+        locationDao.updateFavoriteStatus(locationId,isFavorite)
     }
 
     suspend fun getLocation(id: String): LocationEntity? {
         return locationDao.getLocation(id)
     }
 
-    suspend fun getLocations(): List<LocationEntity> {
-        return locationDao.getAllLocations()
+    suspend fun isFavorite(locationId: String): Boolean {
+        return locationDao.isLocationFavorite(locationId)
+    }
+
+    suspend fun getFavorites(): List<LocationEntity> {
+        return locationDao.getFavorites()
     }
 
     suspend fun deleteLocation(id: String) {

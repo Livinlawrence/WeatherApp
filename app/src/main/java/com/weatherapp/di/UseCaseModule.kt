@@ -1,13 +1,13 @@
 package com.weatherapp.di
 
 import com.weatherapp.domain.repository.WeatherRepository
-import com.weatherapp.domain.usecase.AddFavoriteUseCase
+import com.weatherapp.domain.usecase.UpdateFavoriteStatusUseCase
 import com.weatherapp.domain.usecase.GetCurrentLocationForecastUseCase
 import com.weatherapp.domain.usecase.GetCurrentLocationWeatherUseCase
 import com.weatherapp.domain.usecase.GetFavoritesUseCase
 import com.weatherapp.domain.usecase.GetForecastUseCase
 import com.weatherapp.domain.usecase.GetWeatherUseCase
-import com.weatherapp.domain.usecase.RemoveFavoriteUseCase
+import com.weatherapp.domain.usecase.IsFavoriteUseCase
 import com.weatherapp.domain.usecase.WeatherUseCases
 import dagger.Module
 import dagger.Provides
@@ -27,10 +27,10 @@ object UseCaseModule {
             getWeather = GetWeatherUseCase(repository),
             getForecast = GetForecastUseCase(repository),
             getFavorites = GetFavoritesUseCase(repository),
-            addFavorite = AddFavoriteUseCase(repository),
-            removeFavorite = RemoveFavoriteUseCase(repository),
+            updateFavoriteStatusUseCase = UpdateFavoriteStatusUseCase(repository),
             currentLocationWeather = GetCurrentLocationWeatherUseCase(repository),
             currentLocationForecast = GetCurrentLocationForecastUseCase(repository),
+            isFavorite = IsFavoriteUseCase(repository),
         )
     }
 }

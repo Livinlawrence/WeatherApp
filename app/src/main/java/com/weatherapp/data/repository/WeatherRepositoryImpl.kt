@@ -21,25 +21,14 @@ class WeatherRepositoryImpl @Inject constructor(
     override suspend fun getCurrentLocationWeather(): Weather {
         val location = locationProvider.getCurrentLocation()
         val locationId = "current_location"
-
         return try {
-            val localLocation = local.getLocation(locationId)
-            if (localLocation == null) {
-                local.saveLocation(
-                    LocationEntity(
-                        id = locationId,
-                        name = "Current Location",
-                        country = "",
-                        latitude = location.latitude,
-                        longitude = location.longitude,
-                        isFavorite = false
-                    )
-                )
-            }
-
-            return getWeather(locationId, location.latitude, location.longitude)
-
+            return getWeather(
+                locationId = locationId,
+                lat = location.latitude,
+                lon = location.longitude
+            )
         } catch (e: Exception) {
+            e.printStackTrace()
             val cached = local.getWeather(locationId)
             cached?.toDomain() ?: throw e
         }
@@ -47,8 +36,11 @@ class WeatherRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrentLocationForecast(): List<Forecast> {
         val location = locationProvider.getCurrentLocation()
-        val locationId = "current_location"
-        return getForecast(locationId, location.latitude, location.longitude)
+        return getForecast(
+            locationId = "current_location",
+            lat = location.latitude,
+            lon = location.longitude
+        )
     }
 
     override suspend fun getWeather(
@@ -57,12 +49,19 @@ class WeatherRepositoryImpl @Inject constructor(
         return try {
             val response = remote.getCurrentWeather(lat, lon)
             val weather = response.toDomain(locationId)
-            local.saveWeather(
-                weather.toEntity()
+            val locationEntity = LocationEntity(
+                id = locationId,
+                name = response.name,
+                latitude = lat,
+                longitude = lon
+            )
+            local.saveWeatherForLocation(
+                location = locationEntity,
+                weather = weather.toEntity()
             )
             weather
-
         } catch (e: Exception) {
+            e.printStackTrace()
             val cached = local.getWeather(locationId)
             cached?.toDomain() ?: throw e
         }
@@ -75,27 +74,34 @@ class WeatherRepositoryImpl @Inject constructor(
             val response = remote.getForecast(lat, lon)
             val forecasts = response.list.map {
                 it.toDomain(locationId)
-            }
+            }.groupBy { it.dateTime / 86400 }
+                .map { it.value.first() }
+                .take(5)
             local.saveForecast(
                 forecasts.map { it.toEntity(locationId) })
             forecasts
 
         } catch (e: Exception) {
+            e.printStackTrace()
             local.getForecast(locationId).map { it.toDomain() }
         }
     }
 
-    override suspend fun addFavorite(location: Location) {
-        local.saveLocation(
-            location.toEntity()
+    override suspend fun updateFavoriteStatus(locationId: String, isFavorite: Boolean) {
+        local.updateFavoriteStatus(
+            locationId, isFavorite
         )
     }
 
     override suspend fun getFavorites(): List<Location> {
-        return local.getLocations().map { it.toDomain() }
+        return local.getFavorites().map { it.toDomain() }
     }
 
     override suspend fun removeFavorite(locationId: String) {
         local.deleteLocation(locationId)
+    }
+
+    override suspend fun isFavorite(locationId: String): Boolean {
+        return local.isFavorite(locationId)
     }
 }

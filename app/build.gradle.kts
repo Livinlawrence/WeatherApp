@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
+    //Google places
+    implementation(libs.places)
 
 
     testImplementation(libs.junit)

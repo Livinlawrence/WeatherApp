@@ -21,7 +21,9 @@ interface WeatherRepository {
         lon: Double
     ): List<Forecast>
 
-    suspend fun addFavorite(location: Location)
+    suspend fun isFavorite(locationId: String): Boolean
+
+    suspend fun updateFavoriteStatus(locationId: String, isFavorite: Boolean)
 
     suspend fun getFavorites(): List<Location>
 

@@ -45,13 +45,15 @@ class WeatherLocalDataSourceTest {
         val entity = WeatherEntity(
             locationId = locationId,
             temperature = 298.4,
+            minTemp = 298.4,
+            maxTemp = 298.4,
             feelsLike = 299.0,
             description = "moderate rain",
             name = "10d",
             humidity = 64,
             pressure = 1015,
             windSpeed = 0.62,
-            timestamp = 123456
+            timestamp = 123456,
         )
 
         coEvery { weatherDao.getWeather(locationId) } returns entity
@@ -70,6 +72,8 @@ class WeatherLocalDataSourceTest {
             locationId = locationId,
             temperature = 298.4,
             feelsLike = 299.0,
+            minTemp = 298.4,
+            maxTemp = 298.4,
             description = "rain",
             name = "10d",
             humidity = 64,
