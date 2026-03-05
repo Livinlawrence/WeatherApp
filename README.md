@@ -115,7 +115,7 @@ An exhaustive list of the libraries used and their purpose:
 
    **Example `local.properties` content**:
    ```properties
-   WEATHER_API_KEY=ed602a33481e3703d9804ef53a25c197
+   WEATHER_API_KEY=YOUR_API_KEY_HERE
    GOOGLE_PLACES_API_KEY=YOUR_API_KEY_HERE
    ```
 
